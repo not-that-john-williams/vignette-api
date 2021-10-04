@@ -28,14 +28,20 @@ John Williams
 The following R packages are required to use the functions to access the
 `restcountries.com/v2` API:
 
-    -`tidyverse`: A set of packages with tools that work in harmony to transform and visualize data
-    -`httr`: Makes requesting data from API's easier by formatting GET requests with the proper headers and authentications
-    -`jsonlite`: Converts the JSON from its native nested form to a flat form like a data frame so it's easier to work with
+-   `tidyverse`: A set of packages with tools that work in harmony to
+    transform and visualize data  
+-   `httr`: Makes requesting data from API’s easier by formatting GET
+    requests with the proper headers and authentications  
+-   `jsonlite`: Converts the JSON from its native nested form to a flat
+    form like a data frame so it’s easier to work with
 
 The following R packages are required to perform some of the exploratory
 data analysis demonstrated in this document:
 
-    -`knitr`: Provides a general-purpose tool for dynamic report generation
+-   `knitr`: Provides a general-purpose tool for dynamic report
+    generation  
+-   `stringi`: Provides functions for fast, portable, correct,
+    consistent, and convenient string/text processing
 
 ## API Interaction Functions
 
@@ -101,16 +107,17 @@ byName <- function(name){
 This function returns the data for all countries within a specified
 continent.
 
-    -Africa
-    -Americas
-    -Asia
-    -Europe
-    -Oceania
+-   Africa
+-   Americas
+-   Asia
+-   Europe
+-   Oceania
 
 ``` r
 byContinent <- function(continent){
   ###
-  # This function returns the data for all countries within a specified continent.
+  # This function returns the data for all countries within a specified 
+  # continent.
   ###
   
   #Substitute the empty space between words with "%20" to create a valid URL
@@ -171,27 +178,29 @@ byRegion <- function(region){
 This function returns the data for all countries within a specified
 regional bloc.
 
-    -EU (European Union)
-    -EFTA (European Free Trade Association)
-    -CARICOM (Caribbean Community)
-    -PA (Pacific Alliance)
-    -AU (African Union)
-    -USAN (Union of South American Nations)
-    -EEU (Eurasian Economic Union)
-    -AL (Arab League)
-    -ASEAN (Association of Southeast Asian Nations)
-    -CAIS (Central American Integration System)
-    -CEFTA (Central European Free Trade Agreement)
-    -NAFTA (North American Free Trade Agreement)
-    -SAARC (South Asian Association for Regional Cooperation)
+-   EU (European Union)
+-   EFTA (European Free Trade Association)
+-   CARICOM (Caribbean Community)
+-   PA (Pacific Alliance)
+-   AU (African Union)
+-   USAN (Union of South American Nations)
+-   EEU (Eurasian Economic Union)
+-   AL (Arab League)
+-   ASEAN (Association of Southeast Asian Nations)
+-   CAIS (Central American Integration System)
+-   CEFTA (Central European Free Trade Agreement)
+-   NAFTA (North American Free Trade Agreement)
+-   SAARC (South Asian Association for Regional Cooperation)
 
 ``` r
 byBloc <- function(bloc){
   ###
-  # This function returns the data for all countries within a specified regional bloc.
+  # This function returns the data for all countries within a specified regional
+  # bloc.
   ###
   
-  # If there is a blank space in the string bloc, create an acronym from the string bloc
+  # If there is a blank space in the string bloc, create an acronym from the 
+  # string bloc
   if (grepl(" ", bloc)){
     bloc <- abbreviate(bloc, minlength = 2)
   }
@@ -243,7 +252,8 @@ countries that have the United States Dollar as an official currency.
 ``` r
 byCurrency <- function(currency){
   ###
-  # This function returns the data for all countries with a specified currency name (or partial name).
+  # This function returns the data for all countries with a specified currency 
+  # name (or partial name).
   ###
   
   # Mutate currency to lowercase for easy logical comparisons
@@ -255,10 +265,12 @@ byCurrency <- function(currency){
   # Mutate currency codes to lowercase for easy logical comparisons
   c_codes_lower <- lapply(c_codes, tolower)
   
-  # Create a vector of currency codes that are possible matches for the currency name
+  # Create a vector of currency codes that are possible matches for the currency
+  # name
   c_names <- names(c_codes_lower)[grep(currency, c_codes_lower)]
   
-  # If the vector of currency names has only one data value, return the data from the API
+  # If the vector of currency names has only one data value, return the data 
+  # from the API
   if (length(c_names) == 1){
     base_URL <- "https://restcountries.com/v2/currency/"
     URL <- paste0(base_URL, c_names[1])
@@ -274,8 +286,8 @@ byCurrency <- function(currency){
   
   # If the vector of currency names contains multiple data values, stop
   else{
-    message <- paste0("Multiple currencies with that name/partial name were found. ",
-                      "Did you mean one of these: ", 
+    message <- paste0("Multiple currencies with that name/partial name were ",
+                      "found. Did you mean one of these: ", 
                       stri_join_list(c_codes[grep(currency, c_codes_lower)], 
                                      collapse=", "))
     stop(message)
@@ -294,7 +306,8 @@ Arabic as an official language.
 ``` r
 byLanguage <- function(language){
   ###
-  # This function returns the data for all countries with a specified language name (or partial name).
+  # This function returns the data for all countries with a specified language 
+  # name (or partial name).
   ###
   
   # Mutate language to lowercase for easy logical comparisons
@@ -309,10 +322,12 @@ byLanguage <- function(language){
   # Mutate language codes to lowercase for easy logical comparisons
   l_codes_lower <- lapply(l_codes, tolower)
   
-  # Create a vector of language codes that are possible matches for the language name
+  # Create a vector of language codes that are possible matches for the language
+  # name
   l_names <- l_codes_lower$alpha2[grep(language, l_codes_lower$English)]
   
-  # If the vector of language names has only one data value, return the data from the API
+  # If the vector of language names has only one data value, return the data 
+  # from the API
   if (length(l_names) == 1){
     base_URL <- "https://restcountries.com/v2/lang/"
     URL <- paste0(base_URL, l_names)
@@ -328,8 +343,8 @@ byLanguage <- function(language){
   
   # If the vector of language names contains multiple data values, stop
   else{
-    message <- paste0("Multiple languages with that name/partial name were found. ",
-                      "Did you mean one of these: ", 
+    message <- paste0("Multiple languages with that name/partial name were ",
+                      "found. Did you mean one of these: ", 
                       str_c(l_codes$English[grep(language, l_codes_lower$English)], 
                             collapse=", "))
     stop(message)
@@ -427,12 +442,12 @@ Summary Statistics for Population Density by Subregion in Africa
 Now we can view this summary data as a boxplot:
 
 ``` r
-data <- africa %>% 
+africa <- africa %>% 
         mutate(pop_density = population / area) %>%
         select(name, subregion, population, area, pop_density) %>%
         filter(!is.na(pop_density))
 
-ggplot(data, aes(x = subregion, y = pop_density, fill = subregion)) + 
+ggplot(africa, aes(x = subregion, y = pop_density, fill = subregion)) + 
   geom_boxplot(alpha = 0.3) +
   theme(legend.position = "none") +
   labs(x = NULL,
@@ -441,13 +456,19 @@ ggplot(data, aes(x = subregion, y = pop_density, fill = subregion)) +
        subtitle = "By Subregion in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-86-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+Countries with the highest population density are in Eastern Africa and
+Western Africa. Middle, Northern, and Southern Africa all have low mean
+population densities with little spread in the distributions. On the
+other hand, the variance of population density among countries in
+Eastern Africa is quite large.
 
 Finally, let’s take a look at the relationship between `population` and
 `area`:
 
 ``` r
-ggplot(data, aes(x = area/1000, y = population/1000000)) +
+ggplot(africa, aes(x = area/1000, y = population/1000000)) +
   geom_point(aes(color = factor(subregion)), size = 2) +
   labs(x = "Area in Thousands (km^2)",
   y = "Population in Millions",
@@ -455,7 +476,7 @@ ggplot(data, aes(x = area/1000, y = population/1000000)) +
   subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-87-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 It appears as the area of a country in Africa gets larger, the variance
 in population grows. To reduce this non-constant variance, let’s
@@ -465,16 +486,16 @@ the plot:
 ``` r
 lmod <- lm(log(population) ~ log(area), data = africa)
 
-plot <- ggplot(data = africa, aes(log(area), log(population)))
-plot + geom_point(aes(color = factor(subregion)), size = 2) +
-       geom_smooth(method='lm') +
-       labs(x = "log[Area (km^2)]",
-            y = "log[Population]",
-            title ="log[Population] vs. log[Area]",
-            subtitle = "Countries in Africa")
+ggplot(data = africa, aes(log(area), log(population))) + 
+  geom_point(aes(color = factor(subregion)), size = 2) +
+  geom_smooth(method='lm') +
+  labs(x = "log[Area (km^2)]",
+       y = "log[Population]",
+       title ="log[Population] vs. log[Area]",
+       subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-88-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 Except for one outlier in Southern Africa, there is a clear linear
 relationship between `log(population)` and `log(area)` on the African
@@ -510,12 +531,18 @@ ggplot(data = df, aes(x = languages, y = numberOfCountries)) +
        title ="Number of Countries by Official Language")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-89-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+It must still be true that the sun never sets on the British Empire–a
+majority of the world’s countries have English as a national language.
+It’s evident that colonialism spread European languages across the
+globe.
 
 ### English-Speaking Countries Using the United States Dollar
 
-Let’s pull data for all countries that speak English and all countries
-that use the United States Dollar:
+Let’s use the API endpoints to search for all countries that speak
+English and all countries that use the United States Dollar, creating
+indicator variables `english` and `USD` for each category:
 
 ``` r
 dollar <- countriesAPI("byCurrency", "United States Dollar")
@@ -569,9 +596,9 @@ kable(english_dollar$name, col.names = "Countries:  English and US Dollar")
 ### Americas
 
 Let’s gather all the data on countries in the Americas, create a new
-variable `numBorders` which the number of countries that share a land
-border of a country, and create a table with the count of countries that
-have a certain number of land borders.
+variable `numBorders` which indicates the number of countries that
+nation borders, and create a table with the count of countries that have
+a certain number of land borders.
 
 ``` r
 americas <- countriesAPI("byContinent", "Americas")
@@ -605,9 +632,8 @@ borders11 <- subset(americas, numBorders == 11, select = name)
 Unsurprisingly, the largest country by area in the Americas, Brazil,
 also has the most neighboring countries, a total of 11. And we’ve
 learned that 30 countries in the Americas have no land border with other
-countries. I’d make a guess that most of these countries that have no
-land border with another country are in the Caribbean. Let’s investigate
-this further:
+countries. I’d make a guess that most of these 30 countries are in the
+Caribbean. Let’s investigate this further:
 
 ``` r
 americas %>% filter(numBorders == 0) %>%
@@ -652,7 +678,7 @@ americas %>% filter(numBorders == 0) %>%
 Counrties in the Americas with No Land Border
 
 Our assumption is correct. The vast majority of countries with no land
-border with another country are situated in the beautiful Caribbean Sea.
+border with another nation are situated in the beautiful Caribbean Sea.
 
 ### Regional Blocs
 
@@ -691,7 +717,7 @@ ggplot(tradeBloc1, aes(isBloc, gini)) +
        subtitle = "Is the country a member of a regional bloc?")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-94-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 From a visual inspection of the box plot above, we shouldn’t make any
 conclusions about the difference in mean Gini coefficient between
@@ -757,7 +783,7 @@ ggplot(tradeBloc2, aes(x = factor(Bloc1), y = gini, fill = factor(Bloc1))) +
        title ="Gini Coefficient by Selected Regional Bloc")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-95-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 It appears countries in the European Union (EU) have generally less
 income inequality than other regional blocs. Countries in the African
@@ -794,7 +820,7 @@ ggplot(countries, aes(gini)) +
        subtitle = "All Countries")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-96-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 The United States has a Gini coefficient of 41.4 indicating that it has
 more income inequality than many other countries in the world.
@@ -820,11 +846,11 @@ ggplot(countries, aes(x = gini, fill = region)) +
        subtitle = "By Continent")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-97-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 From a brief inspection of this histogram, we see the distribution of
 Gini coefficients shifts depending on continent. Generally, European
-countries has a lower Gini coefficient than African countries.
+countries have a lower Gini coefficient than African countries.
 
 Finally, let’s zoom in on countries in Europe and compare the
 distribution of Gini coefficients by subregion:
@@ -845,6 +871,14 @@ ggplot(countries, aes(subregion, gini)) +
        subtitle = "European Subregions")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-98-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+Even after the Iron Curtain fell decades ago, Eastern Europe has a lower
+mean Gini coefficient (and lower income inequality) than other regions
+in Europe, but also, Eastern Europe has the highest spread of Gini
+coefficient values. Southern Europe, generally, has high Gini
+coefficients indicating more income inequality in that region of Europe
+compared to other regions. Slovenia (with a Gini coefficient of 24.6) is
+the lone outlier in Southern Europe.
 
 ## Wrap Up
