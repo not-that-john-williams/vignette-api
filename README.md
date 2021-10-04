@@ -20,6 +20,7 @@ John Williams
         Dollar](#english-speaking-countries-using-the-united-states-dollar)
     -   [Americas](#americas)
     -   [Regional Blocs](#regional-blocs)
+    -   [Gini Coefficient](#gini-coefficient)
 -   [Wrap Up](#wrap-up)
 
 ## Requirements
@@ -440,7 +441,7 @@ ggplot(data, aes(x = subregion, y = pop_density, fill = subregion)) +
        subtitle = "By Subregion in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-86-1.png)<!-- -->
 
 Finally, let’s take a look at the relationship between `population` and
 `area`:
@@ -454,7 +455,7 @@ ggplot(data, aes(x = area/1000, y = population/1000000)) +
   subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-87-1.png)<!-- -->
 
 It appears as the area of a country in Africa gets larger, the variance
 in population grows. To reduce this non-constant variance, let’s
@@ -473,7 +474,7 @@ plot + geom_point(aes(color = factor(subregion)), size = 2) +
             subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-88-1.png)<!-- -->
 
 Except for one outlier in Southern Africa, there is a clear linear
 relationship between `log(population)` and `log(area)` on the African
@@ -509,7 +510,7 @@ ggplot(data = df, aes(x = languages, y = numberOfCountries)) +
        title ="Number of Countries by Official Language")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-89-1.png)<!-- -->
 
 ### English-Speaking Countries Using the United States Dollar
 
@@ -690,7 +691,7 @@ ggplot(tradeBloc1, aes(isBloc, gini)) +
        subtitle = "Is the country a member of a regional bloc?")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-94-1.png)<!-- -->
 
 From a visual inspection of the box plot above, we shouldn’t make any
 conclusions about the difference in mean Gini coefficient between
@@ -756,35 +757,94 @@ ggplot(tradeBloc2, aes(x = factor(Bloc1), y = gini, fill = factor(Bloc1))) +
        title ="Gini Coefficient by Selected Regional Bloc")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-95-1.png)<!-- -->
+
+It appears countries in the European Union (EU) have generally less
+income inequality than other regional blocs. Countries in the African
+Union (AU) and the Union of South American Nations (USAN) have a wide
+variance in income inequality.
+
+### Gini Coefficient
+
+Let’s pull the data for all countries, plot the distribution of Gini
+coefficients across the globe on a histogram, and see where the United
+States measures up:
 
 ``` r
 # Get data for all countries.
 countries <- countriesAPI("byAll")
-countries <- filter(countries, gini > 10, region %in% c("Europe", "Asia", "Africa"))
 
-h <- ggplot(countries, aes(gini))
-h +  geom_histogram()
+# Filter data
+countries <- filter(countries, gini > 10)
+
+# Create histogram
+ggplot(countries, aes(gini)) +
+  geom_histogram(binwidth = 2, fill = "#56B4E9") +
+  geom_vline(xintercept = median(countries$gini), col = "#E95684", lwd = 1.5) +
+  annotate("text", x = 55, y = 20,
+           label = paste("Median =", round(median(countries$gini), digits = 1)), 
+           col = "#E95684", size = 6) +
+  geom_vline(xintercept = countries$gini[172], col = "#7a49a5", lwd = 1.5) +
+  annotate("text", x = 55, y = 16,
+           label = paste("United States =", countries$gini[172]), 
+           col = "#7a49a5", size = 5) +
+  labs(x = "Gini Coefficient",
+       y = "Count",
+       title ="Distribution of Gini Coefficient",
+       subtitle = "All Countries")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-96-1.png)<!-- -->
+
+The United States has a Gini coefficient of 41.4 indicating that it has
+more income inequality than many other countries in the world.
+
+Let’s continue to explore the distribution of Gini coefficients. Now
+we’ll group countries by region (specifically, Africa, Asia, and Europe)
+and overlay the histograms.
 
 ``` r
-ggplot(countries, aes(x = gini, fill = region)) + # Draw overlaying histogram
-  geom_histogram(position = "identity", alpha = 0.4, bins = 20)
+# Get data for all countries.
+countries <- countriesAPI("byAll")
+
+# Filter data
+countries <- filter(countries, gini > 10, 
+                    region %in% c("Europe", "Asia", "Africa"))
+
+# Create histogram
+ggplot(countries, aes(x = gini, fill = region)) +
+  geom_histogram(position = "identity", alpha = 0.4, bins = 20) +
+  labs(x = "Gini Coefficient",
+       y = "Count",
+       title ="Distribution of Gini Coefficient",
+       subtitle = "By Continent")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-97-1.png)<!-- -->
+
+From a brief inspection of this histogram, we see the distribution of
+Gini coefficients shifts depending on continent. Generally, European
+countries has a lower Gini coefficient than African countries.
+
+Finally, let’s zoom in on countries in Europe and compare the
+distribution of Gini coefficients by subregion:
 
 ``` r
+# Get data for all countries.
+countries <- countriesAPI("byAll")
+
+# Filter data
 countries <- filter(countries, gini > 10, region %in% "Europe")
 
 ggplot(countries, aes(subregion, gini)) + 
-  geom_boxplot()
+  geom_boxplot(aes(fill = subregion)) +
+  theme(legend.position="none") +
+  labs(x = NULL,
+       y = "Gini Coefficient",
+       title ="Distribution of Gini Coefficient",
+       subtitle = "European Subregions")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-98-1.png)<!-- -->
 
 ## Wrap Up
-
-TEST
