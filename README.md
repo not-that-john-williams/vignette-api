@@ -440,7 +440,7 @@ ggplot(data, aes(x = subregion, y = pop_density, fill = subregion)) +
        subtitle = "By Subregion in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-141-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 Finally, let’s take a look at the relationship between `population` and
 `area`:
@@ -454,7 +454,7 @@ ggplot(data, aes(x = area/1000, y = population/1000000)) +
   subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-142-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 It appears as the area of a country in Africa gets larger, the variance
 in population grows. To reduce this non-constant variance, let’s
@@ -473,7 +473,7 @@ plot + geom_point(aes(color = factor(subregion)), size = 2) +
             subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-143-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Except for one outlier in Southern Africa, there is a clear linear
 relationship between `log(population)` and `log(area)` on the African
@@ -509,7 +509,7 @@ ggplot(data = df, aes(x = languages, y = numberOfCountries)) +
        title ="Number of Countries by Official Language")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-144-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ### English-Speaking Countries Using the United States Dollar
 
@@ -690,7 +690,7 @@ ggplot(tradeBloc1, aes(isBloc, gini)) +
        subtitle = "Is the country a member of a regional bloc?")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-149-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 From a visual inspection of the box plot above, we shouldn’t make any
 conclusions about the difference in mean Gini coefficient between
@@ -756,7 +756,7 @@ ggplot(tradeBloc2, aes(x = factor(Bloc1), y = gini, fill = factor(Bloc1))) +
        title ="Gini Coefficient by Selected Regional Bloc")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-150-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 # Get data for all countries.
@@ -767,14 +767,14 @@ h <- ggplot(countries, aes(gini))
 h +  geom_histogram()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-151-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 ggplot(countries, aes(x = gini, fill = region)) + # Draw overlaying histogram
   geom_histogram(position = "identity", alpha = 0.4, bins = 20)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-151-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-2.png)<!-- -->
 
 ``` r
 countries <- filter(countries, gini > 10, region %in% "Europe")
@@ -783,6 +783,8 @@ ggplot(countries, aes(subregion, gini)) +
   geom_boxplot()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-151-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-3.png)<!-- -->
 
 ## Wrap Up
+
+TEST
