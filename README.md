@@ -1,7 +1,7 @@
-Accessing APIs Using R: An Example Using REST Countries API
+Accessing API’s Using R: An Example Using REST Countries API
 ================
 John Williams
-9/27/2021
+10/04/2021
 
 -   [Requirements](#requirements)
 -   [API Interaction Functions](#api-interaction-functions)
@@ -22,6 +22,8 @@ John Williams
     -   [Regional Blocs](#regional-blocs)
     -   [Gini Coefficient](#gini-coefficient)
 -   [Wrap Up](#wrap-up)
+-   [Code Used to Generate This
+    Vignette](#code-used-to-generate-this-vignette)
 
 ## Requirements
 
@@ -882,3 +884,61 @@ compared to other regions. Slovenia (with a Gini coefficient of 24.6) is
 the lone outlier in Southern Europe.
 
 ## Wrap Up
+
+This vignette is a simple demonstration on how to retrieve data from an
+API using R. It includes 7 functions that query different endpoints of
+the [REST Countries API](https://restcountries.com/v2/), allowing the
+user to access data by name, partial name, continent, region, regional
+bloc, currency, or language. All of these functions are bundled together
+into a single wrapper function, `countriesAPI`.
+
+After the review of API interaction functions, there are several brief
+examples of data analysis using `countriesAPI`. In that exploration, I
+discovered a few interesting tidbits:
+
+-   English is the most common official language of countries in the
+    world.
+-   Twelve countries have English as an official language and the US
+    Dollar as an official currency.
+-   The majority of countries in the Americas (53%) have no land boarder
+    with other countries. These are mostly island nations in the
+    Caribbean.
+-   Being a member of a regional bloc does not necessarily elevate
+    income inequality within a country.
+-   The European Union has the lowest mean income inequality of regional
+    blocs.
+-   The United States has higher income inequality than over half the
+    countries in the world.
+
+This project, overall, was beneficial for developing data science skills
+even beyond its primary purpose of interacting with an API. I was able
+to practice recognizing when to use the `apply` family of functions; I
+learned about `grep`, a handy tool for searching for matches of certain
+character patterns; and I delve deeply into the inner workings of the
+tidyverse, specifically `ggplot`, during the exploratory data analysis.
+
+Finally, here are a few “best practices” to remember when tackling
+future data science projects:
+
+-   Don’t jump in without a plan. Look at the whole picture, formulate
+    the questions that need answered or express the final objective, and
+    create an outline. Time spent on this at the very beginning is well
+    worth it.
+-   Break big, overwhelming tasks into smaller chunks. Create helper
+    functions as needed. You’ll be surprised how many times you may
+    reuse a helper function throughout the project which saves you time
+    and brain power.
+-   Use other’s hard work. There are many stellar resources online.
+    Become skilled at seeking (and compiling!) proven packages and
+    functions available to complete complex tasks.
+-   Comments are your best friend. Don’t just answer why you did
+    something but also explain how.
+
+## Code Used to Generate This Vignette
+
+``` r
+rmarkdown::render("countrylayer-api.Rmd",
+                  output_format = "github_document",
+                  output_file = "README.md",
+                  output_options = c(toc = TRUE, toc_depth = 3))
+```
