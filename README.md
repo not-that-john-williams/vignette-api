@@ -1,4 +1,4 @@
-countrylayer-api
+Accessing APIs Using R: An Example Using REST Countries API
 ================
 John Williams
 9/27/2021
@@ -456,7 +456,7 @@ ggplot(africa, aes(x = subregion, y = pop_density, fill = subregion)) +
        subtitle = "By Subregion in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 Countries with the highest population density are in Eastern Africa and
 Western Africa. Middle, Northern, and Southern Africa all have low mean
@@ -476,7 +476,7 @@ ggplot(africa, aes(x = area/1000, y = population/1000000)) +
   subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 It appears as the area of a country in Africa gets larger, the variance
 in population grows. To reduce this non-constant variance, let’s
@@ -495,7 +495,7 @@ ggplot(data = africa, aes(log(area), log(population))) +
        subtitle = "Countries in Africa")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Except for one outlier in Southern Africa, there is a clear linear
 relationship between `log(population)` and `log(area)` on the African
@@ -531,7 +531,7 @@ ggplot(data = df, aes(x = languages, y = numberOfCountries)) +
        title ="Number of Countries by Official Language")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 It must still be true that the sun never sets on the British Empire–a
 majority of the world’s countries have English as a national language.
@@ -717,7 +717,7 @@ ggplot(tradeBloc1, aes(isBloc, gini)) +
        subtitle = "Is the country a member of a regional bloc?")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 From a visual inspection of the box plot above, we shouldn’t make any
 conclusions about the difference in mean Gini coefficient between
@@ -783,7 +783,7 @@ ggplot(tradeBloc2, aes(x = factor(Bloc1), y = gini, fill = factor(Bloc1))) +
        title ="Gini Coefficient by Selected Regional Bloc")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 It appears countries in the European Union (EU) have generally less
 income inequality than other regional blocs. Countries in the African
@@ -820,7 +820,7 @@ ggplot(countries, aes(gini)) +
        subtitle = "All Countries")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 The United States has a Gini coefficient of 41.4 indicating that it has
 more income inequality than many other countries in the world.
@@ -846,7 +846,7 @@ ggplot(countries, aes(x = gini, fill = region)) +
        subtitle = "By Continent")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 From a brief inspection of this histogram, we see the distribution of
 Gini coefficients shifts depending on continent. Generally, European
@@ -871,7 +871,7 @@ ggplot(countries, aes(subregion, gini)) +
        subtitle = "European Subregions")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 Even after the Iron Curtain fell decades ago, Eastern Europe has a lower
 mean Gini coefficient (and lower income inequality) than other regions
